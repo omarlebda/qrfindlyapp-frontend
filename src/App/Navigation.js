@@ -1,6 +1,9 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState, useContext} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
+import {useHistory } from 'react-router-dom';
 import {ReactComponent as Logo} from '../assets/logo.svg'
+import AuthContext from '../context/auth/AuthContext'
+
 import {
     Tooltip,
     Dropdown,
@@ -30,6 +33,13 @@ function Navigation() {
     const [darkSwitcherTooltipOpen, setDarkSwitcherTooltipOpen] = useState(false);
 
     const [editModalOpen, setEditModalOpen] = useState(false);
+    const {logOut} = useContext(AuthContext)
+    const history = useHistory()
+
+    const handleLogout = () =>{
+        logOut()
+        history.push('/sign-in')
+    }
 
     const userMenuToggle = () => {
         return !dropdownOpen && setUserMenuTooltipOpen(!userMenuTooltipOpen);
@@ -157,7 +167,7 @@ function Navigation() {
                                 <DropdownItem onClick={profileActions}>Profile</DropdownItem>
                                 <DropdownItem onClick={settingsModalToggle}>Settings</DropdownItem>
                                 <DropdownItem divider/>
-                                <DropdownItem onClick={() => window.location.href = '/sign-in'}>Logout</DropdownItem>
+                                <DropdownItem onClick={handleLogout}>Logout</DropdownItem>
                             </DropdownMenu>
                         </Dropdown>
                         <Tooltip

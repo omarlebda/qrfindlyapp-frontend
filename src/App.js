@@ -12,7 +12,7 @@ import ResetPassword from "./Pages/ResetPassword"
 import PhoneCode from "./Pages/PhoneCode"
 import Layout from "./App/Layout"
 import { AuthProvider } from './context/auth/AuthContext'
-
+import GuestGuard from './context/auth/GuestGuard'
 function App() {
     return (
         <AuthProvider>
@@ -23,7 +23,9 @@ function App() {
                 <Route path="/lock-screen" component={LockScreen}/>
                 <Route path="/reset-password" component={ResetPassword}/>
                 <Route path="/phone-code" component={PhoneCode}/>
-                <Route path="/" component={Layout}/>
+                <GuestGuard>
+                    <Route path="/" component={Layout}/>
+                </GuestGuard>
             </Switch>
         </Router>
         </AuthProvider>
