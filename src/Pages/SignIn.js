@@ -1,9 +1,45 @@
-import React, {useEffect} from "react"
+import React, { useState, useEffect, useContext} from "react"
 import {ReactComponent as Logo} from '../assets/logo.svg'
+import AuthContext from "../context/auth/AuthContext";
+import { useHistory } from "react-router-dom";
+
 
 function SignIn() {
-
+    
     useEffect(() => document.body.classList.add('form-membership'), []);
+    const history = useHistory()
+    const {logIn} = useContext(AuthContext)
+    const [formData, setFormData] = useState({
+        email: '',
+        password: ''
+    })
+    const {email, password} = formData
+    
+    const handleChange = (e) =>{
+        let key = e.target.id
+        let value = e.target.value
+        setFormData((prevState) => ({
+            ...prevState,
+            [key] : value
+          }))
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        try {
+            const userLogin = await logIn(email, password)
+            if(!userLogin.error){
+                history.push('/')
+                console.log(userLogin.status)
+            }else{
+                // @To-Do Add Error Alerts
+                console.log(userLogin.error.message)
+            }
+            
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     return (
         <div className="form-wrapper">
@@ -11,12 +47,12 @@ function SignIn() {
                 <Logo/>
             </div>
             <h5>Sign in</h5>
-            <form>
+            <form onSubmit={handleSubmit} >
                 <div className="form-group">
-                    <input type="text" name="email" className="form-control" placeholder="Username or email"/>
+                    <input id='email' value={email} onChange={handleChange} type="text" name="email" className="form-control" placeholder="Username or email" required autoFocus/>
                 </div>
                 <div className="form-group">
-                    <input type="password" name="password" className="form-control" placeholder="Password"/>
+                    <input id='password' value={password} onChange={handleChange} type="password" name="password" className="form-control" placeholder="Password" required />
                 </div>
                 <div className="form-group d-flex justify-content-between">
                     <div className="custom-control custom-checkbox">
