@@ -4,6 +4,7 @@ import ChatFooter from "./ChatFooter"
 import PerfectScrollbar from "react-perfect-scrollbar"
 import UnselectedChat from '../../assets/img/unselected-chat.svg'
 import {useSelector} from "react-redux"
+import Item from './Item'
 
 function Chat() {
 
@@ -60,6 +61,14 @@ function Chat() {
         }
     };
 
+    
+    if(selectedChat.name === 'Open-profile'){
+        return (
+            <div className="chat">
+                <Item/>
+            </div>
+        )
+    }else{
     return (
         <div className="chat">
             {
@@ -95,7 +104,7 @@ function Chat() {
                     </div>
             }
         </div>
-    )
+    )}
 }
 
 export default Chat

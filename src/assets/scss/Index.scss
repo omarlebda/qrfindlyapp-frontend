@@ -13,6 +13,11 @@
 @import "Other";
 @import "Rtl";
 
+
+.item-list{
+	display: flex;
+
+}
 .layout {
 	height: 100vh;
 	height: calc(var(--vh, 1vh) * 100);
@@ -21,6 +26,10 @@
 	.content {
 		display: flex;
 		flex: 1;
+
+		.customBtn:hover {
+			cursor: pointer;
+		}
 
 		.sidebar-group {
 
@@ -203,6 +212,7 @@
 				.chat-header-user {
 					display: flex;
 					align-items: center;
+
 
 					figure {
 						margin-right: 1rem;
