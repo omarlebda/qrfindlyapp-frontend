@@ -19,7 +19,7 @@ import SettingsModal from "./Modals/SettingsModal"
 import {mobileSidebarAction} from "../Store/Actions/mobileSidebarAction"
 import WomenAvatar5 from "../assets/img/women_avatar5.jpg"
 import {mobileProfileAction} from "../Store/Actions/mobileProfileAction"
-
+import {selectedChatAction} from "../Store/Actions/selectedChatAction";
 function Navigation() {
 
     const {selectedSidebar} = useSelector(state => state);
@@ -70,6 +70,11 @@ function Navigation() {
 
     const navigationItems = [
         {
+            name: 'Profile',
+            icon: <FeatherIcon.User/>,
+            badge: 'danger'
+        },
+        {
             name: 'Chats',
             icon: <FeatherIcon.MessageCircle/>,
             badge: 'warning',
@@ -98,6 +103,11 @@ function Navigation() {
         const toggle = () => setTooltipOpen(!tooltipOpen);
 
         const linkDispatch = (e, name) => {
+            if(name === 'Profile'){
+                dispatch(selectedChatAction({name: 'Open-profile'}))
+            }else{
+                dispatch(selectedChatAction({name: null}))
+            }
             e.preventDefault();
             dispatch(sidebarAction(name));
             dispatch(mobileSidebarAction(true));
@@ -134,6 +144,7 @@ function Navigation() {
                             <Logo/>
                         </a>
                     </li>
+                    
                     {
                         navigationItems.map((item, i) => <NavigationItemView key={i} item={item}
                                                                              tooltipName={"Tooltip-" + i}/>)

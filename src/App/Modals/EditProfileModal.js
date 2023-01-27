@@ -74,9 +74,9 @@ function EditProfileModal(props) {
                         <TabContent activeTab={activeTab}>
                             <TabPane tabId="1">
                                 <FormGroup>
-                                    <Label for="fullname">Fullname</Label>
+                                    <Label for="firstname">First Name</Label>
                                     <InputGroup>
-                                        <Input type="text" name="fullname" id="fullname"/>
+                                        <Input type="text" name="firstname" id="firstname"/>
                                         <InputGroupAddon addonType="append">
                                             <Button color="light">
                                                 <FeatherIcon.User/>
@@ -85,15 +85,15 @@ function EditProfileModal(props) {
                                     </InputGroup>
                                 </FormGroup>
                                 <FormGroup>
-                                    <Label for="avatar">Avatar</Label>
-                                    <div className="d-flex align-items-center">
-                                        <div>
-                                            <figure className="avatar mr-3 item-rtl">
-                                                <img src={ManAvatar4} className="rounded-circle" alt="avatar"/>
-                                            </figure>
-                                        </div>
-                                        <CustomInput type="file" id="exampleCustomFileBrowser" name="customFile"/>
-                                    </div>
+                                    <Label for="lastname">Last Name</Label>
+                                    <InputGroup>
+                                        <Input type="text" name="lastname" id="lastname"/>
+                                        <InputGroupAddon addonType="append">
+                                            <Button color="light">
+                                                <FeatherIcon.User/>
+                                            </Button>
+                                        </InputGroupAddon>
+                                    </InputGroup>
                                 </FormGroup>
                                 <FormGroup>
                                     <Label for="city">City</Label>
@@ -120,10 +120,10 @@ function EditProfileModal(props) {
                                 <FormGroup>
                                     <Label for="phone">Website</Label>
                                     <InputGroup>
-                                        <Input type="text" name="website" id="website" placeholder="https://"/>
+                                        <Input type="email" name="email" id="email" placeholder="Mail@gmail.com"/>
                                         <InputGroupAddon addonType="append">
                                             <Button color="light">
-                                                <FeatherIcon.Link/>
+                                                <FeatherIcon.Mail/>
                                             </Button>
                                         </InputGroupAddon>
                                     </InputGroup>
