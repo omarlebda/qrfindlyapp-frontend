@@ -4,7 +4,6 @@ import AuthContext from './AuthContext';
 
 function GuestGuard({children}) {
     const {isAuthenticated} = useContext(AuthContext)
-    
     if (!isAuthenticated) {
         return (
           <Redirect to='/sign-in' />

@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useContext, useEffect} from 'react'
 import {
     Modal,
     ModalBody,
@@ -22,15 +22,40 @@ import {
 import * as FeatherIcon from 'react-feather'
 import classnames from 'classnames'
 import ManAvatar4 from '../../assets/img/man_avatar4.jpg'
+import UserContext from '../../context/user/UserContext'
 
 function EditProfileModal(props) {
 
     const [activeTab, setActiveTab] = useState('1');
-
     const toggle = tab => {
         if (activeTab !== tab) setActiveTab(tab);
     };
+    const {user, editUser} = useContext(UserContext)
 
+    const [formData, setFormData] = useState({
+        firstName: user?.firstName,
+        lastName: user?.lastName,
+        about: user?.about,
+        location: user?.location,
+        phoneNumber: user?.phoneNumber,
+        facebookLink: user?.facebookLink,
+        twitterLink: user?.twitterLink,
+        instagramLink: user?.instagramLink,
+        whatsappLink: user?.whatsappLink
+    })
+    const {firstName, lastName, about, location, phoneNumber, facebookLink, twitterLink, instagramLink, whatsappLink} = formData
+
+    const handleChange = (e) =>{
+        const userData = {...formData}
+        userData[e.target.id] = e.target.value
+        setFormData(userData)
+    }
+
+    const handleSubmit = (e) =>{
+        e.preventDefault()
+        editUser(formData)
+        props.toggle()
+    }
     return (
         <div>
             <Modal isOpen={props.modal} toggle={props.toggle} centered className="modal-dialog-zoom">
@@ -76,7 +101,7 @@ function EditProfileModal(props) {
                                 <FormGroup>
                                     <Label for="firstname">First Name</Label>
                                     <InputGroup>
-                                        <Input type="text" name="firstname" id="firstname"/>
+                                        <Input type="text" name="firstname" id="firstName" defaultValue={firstName} onChange={handleChange}/>
                                         <InputGroupAddon addonType="append">
                                             <Button color="light">
                                                 <FeatherIcon.User/>
@@ -87,7 +112,7 @@ function EditProfileModal(props) {
                                 <FormGroup>
                                     <Label for="lastname">Last Name</Label>
                                     <InputGroup>
-                                        <Input type="text" name="lastname" id="lastname"/>
+                                        <Input type="text" name="lastname" id="lastName" defaultValue={lastName} onChange={handleChange}/>
                                         <InputGroupAddon addonType="append">
                                             <Button color="light">
                                                 <FeatherIcon.User/>
@@ -98,7 +123,7 @@ function EditProfileModal(props) {
                                 <FormGroup>
                                     <Label for="city">City</Label>
                                     <InputGroup>
-                                        <Input type="text" name="city" id="city" placeholder="Ex: Columbia"/>
+                                        <Input type="text" name="city" id="location" placeholder="Ex: Columbia" defaultValue={location} onChange={handleChange}/>
                                         <InputGroupAddon addonType="append">
                                             <Button color="light">
                                                 <FeatherIcon.Target/>
@@ -109,21 +134,10 @@ function EditProfileModal(props) {
                                 <FormGroup>
                                     <Label for="phone">Phone</Label>
                                     <InputGroup>
-                                        <Input type="text" name="phone" id="phone" placeholder="(555) 555 55 55"/>
+                                        <Input type="text" name="phone" id="phoneNumber" placeholder="(555) 555 55 55" defaultValue={phoneNumber} onChange={handleChange}/>
                                         <InputGroupAddon addonType="append">
                                             <Button color="light">
                                                 <FeatherIcon.Phone/>
-                                            </Button>
-                                        </InputGroupAddon>
-                                    </InputGroup>
-                                </FormGroup>
-                                <FormGroup>
-                                    <Label for="phone">Website</Label>
-                                    <InputGroup>
-                                        <Input type="email" name="email" id="email" placeholder="Mail@gmail.com"/>
-                                        <InputGroupAddon addonType="append">
-                                            <Button color="light">
-                                                <FeatherIcon.Mail/>
                                             </Button>
                                         </InputGroupAddon>
                                     </InputGroup>
@@ -132,16 +146,13 @@ function EditProfileModal(props) {
                             <TabPane tabId="2">
                                 <FormGroup>
                                     <Label for="about">Write a few words that describe you</Label>
-                                    <Input type="textarea" name="about" id="about"/>
-                                </FormGroup>
-                                <FormGroup>
-                                    <CustomInput type="checkbox" id="customCheckbox1" label="View profile" defaultChecked/>
+                                    <Input type="textarea" name="about" id="about" defaultValue={about} onChange={handleChange}/>
                                 </FormGroup>
                             </TabPane>
                             <TabPane tabId="3">
                                 <FormGroup>
                                     <InputGroup>
-                                        <Input type="text" name="facebook" id="facebook" placeholder="Username"/>
+                                        <Input type="text" name="facebook" id="facebookLink"  defaultValue={facebookLink} onChange={handleChange} placeholder="Username"/>
                                         <InputGroupAddon addonType="append">
                                             <InputGroupText className="bg-facebook">
                                                 <i className="fa fa-facebook"></i>
@@ -151,7 +162,7 @@ function EditProfileModal(props) {
                                 </FormGroup>
                                 <FormGroup>
                                     <InputGroup>
-                                        <Input type="text" name="twitter" id="twitter" placeholder="Username"/>
+                                        <Input type="text" name="twitter" id="twitterLink"  defaultValue={twitterLink} onChange={handleChange} placeholder="Username"/>
                                         <InputGroupAddon addonType="append">
                                             <InputGroupText className="bg-twitter">
                                                 <i className="fa fa-twitter"></i>
@@ -161,7 +172,7 @@ function EditProfileModal(props) {
                                 </FormGroup>
                                 <FormGroup>
                                     <InputGroup>
-                                        <Input type="text" name="instagram" id="instagram" placeholder="Username"/>
+                                        <Input type="text" name="instagram" id="instagramLink"  defaultValue={instagramLink} onChange={handleChange} placeholder="Username"/>
                                         <InputGroupAddon addonType="append">
                                             <InputGroupText className="bg-instagram">
                                                 <i className="fa fa-instagram"></i>
@@ -171,47 +182,7 @@ function EditProfileModal(props) {
                                 </FormGroup>
                                 <FormGroup>
                                     <InputGroup>
-                                        <Input type="text" name="linkedin" id="linkedin" placeholder="Username"/>
-                                        <InputGroupAddon addonType="append">
-                                            <InputGroupText className="bg-linkedin">
-                                                <i className="fa fa-linkedin"></i>
-                                            </InputGroupText>
-                                        </InputGroupAddon>
-                                    </InputGroup>
-                                </FormGroup>
-                                <FormGroup>
-                                    <InputGroup>
-                                        <Input type="text" name="dribbble" id="dribbble" placeholder="Username"/>
-                                        <InputGroupAddon addonType="append">
-                                            <InputGroupText className="bg-dribbble">
-                                                <i className="fa fa-dribbble"></i>
-                                            </InputGroupText>
-                                        </InputGroupAddon>
-                                    </InputGroup>
-                                </FormGroup>
-                                <FormGroup>
-                                    <InputGroup>
-                                        <Input type="text" name="youtube" id="youtube" placeholder="Username"/>
-                                        <InputGroupAddon addonType="append">
-                                            <InputGroupText className="bg-youtube">
-                                                <i className="fa fa-youtube"></i>
-                                            </InputGroupText>
-                                        </InputGroupAddon>
-                                    </InputGroup>
-                                </FormGroup>
-                                <FormGroup>
-                                    <InputGroup>
-                                        <Input type="text" name="google" id="google" placeholder="Username"/>
-                                        <InputGroupAddon addonType="append">
-                                            <InputGroupText className="bg-google">
-                                                <i className="fa fa-google"></i>
-                                            </InputGroupText>
-                                        </InputGroupAddon>
-                                    </InputGroup>
-                                </FormGroup>
-                                <FormGroup>
-                                    <InputGroup>
-                                        <Input type="text" name="whatsapp" id="whatsapp" placeholder="Username"/>
+                                        <Input type="text" name="whatsapp" id="whatsappLink"  defaultValue={whatsappLink} onChange={handleChange} placeholder="Username"/>
                                         <InputGroupAddon addonType="append">
                                             <InputGroupText className="bg-whatsapp">
                                                 <i className="fa fa-whatsapp"></i>
@@ -224,7 +195,7 @@ function EditProfileModal(props) {
                     </Form>
                 </ModalBody>
                 <ModalFooter>
-                    <Button color="primary">Save</Button>
+                    <Button onClick={handleSubmit} color="primary">Save</Button>
                 </ModalFooter>
             </Modal>
         </div>

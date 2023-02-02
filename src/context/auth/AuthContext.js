@@ -1,4 +1,4 @@
-import React, { createContext, useReducer } from "react";
+import React, { createContext, useReducer, useEffect } from "react";
 import AuthReducer from './AuthReducer'
 import axios from 'axios'
 
@@ -7,10 +7,19 @@ const AuthContext = createContext();
 
 
 export const AuthProvider =({children}) =>{
+    const isToken = localStorage.getItem('token')
     const initialState = {
-        isAuthenticated: false,
-        user: null,
+        isAuthenticated: isToken? true : false,
     };
+
+
+    useEffect( () => {
+      if (isToken) {
+           initialState.isAuthenticated = true;
+           initialState.user = localStorage.getItem('user')
+      }
+    });
+  
 
     const [state, dispatch] = useReducer(AuthReducer, initialState)
 
@@ -25,12 +34,9 @@ export const AuthProvider =({children}) =>{
     
         try {
           const res = await axios.post(`${APIsURL}/users`, body, config);
-          localStorage.setItem('token', res.data.token);;
+          localStorage.setItem('token', res.data.token);
           dispatch({
             type: 'LOGIN',
-            payload: {
-              user: res.data.user,
-            },
           });
           return {
             status: 'success',
@@ -58,9 +64,6 @@ export const AuthProvider =({children}) =>{
         localStorage.setItem('token', res.data.token);
         dispatch({
           type: 'LOGIN',
-          payload: {
-            user: res.data.user,
-          },
         });
         return {
           status: 'success',
@@ -74,9 +77,16 @@ export const AuthProvider =({children}) =>{
       }
   };
 
-
+  //Logout
   const logOut = async () => {
     try {
+      const token = localStorage.getItem('token')
+      const res = await fetch(`${APIsURL}/users/logout`, {
+        method: "POST",
+        headers:{
+          'Authorization': `Bearer ${token}`
+        },
+      })
       localStorage.removeItem('token');
       dispatch({
         type: 'LOGOUT',
@@ -93,7 +103,7 @@ export const AuthProvider =({children}) =>{
             register,
             logIn,
             logOut,
-            isAuthenticated: state.isAuthenticated
+            isAuthenticated: state.isAuthenticated,
           }}
         >
           {children}

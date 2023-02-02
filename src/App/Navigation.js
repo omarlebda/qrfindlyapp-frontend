@@ -3,6 +3,7 @@ import {useDispatch, useSelector} from 'react-redux'
 import {useHistory } from 'react-router-dom';
 import {ReactComponent as Logo} from '../assets/logo.svg'
 import AuthContext from '../context/auth/AuthContext'
+import UserContext from '../context/user/UserContext'
 
 import {
     Tooltip,
@@ -34,6 +35,8 @@ function Navigation() {
 
     const [editModalOpen, setEditModalOpen] = useState(false);
     const {logOut} = useContext(AuthContext)
+    const {user} = useContext(UserContext)
+
     const history = useHistory()
 
     const handleLogout = () =>{
@@ -170,7 +173,7 @@ function Navigation() {
                                 aria-expanded={dropdownOpen}
                             >
                                 <figure className="avatar">
-                                    <img src={WomenAvatar5} className="rounded-circle" alt="avatar"/>
+                                    <img src={user?.avatar? `data:image/png;base64, ${user.avatar}` : WomenAvatar5} className="rounded-circle" alt="avatar"/>
                                 </figure>
                             </DropdownToggle>
                             <DropdownMenu>

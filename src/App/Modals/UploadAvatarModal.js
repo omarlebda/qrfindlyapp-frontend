@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useContext} from 'react'
 import {
     Modal,
     ModalBody,
@@ -22,8 +22,26 @@ import {
 import * as FeatherIcon from 'react-feather'
 import classnames from 'classnames'
 import ManAvatar4 from '../../assets/img/man_avatar4.jpg'
+import UserContext from '../../context/user/UserContext'
+
 
 function UploadAvatarModal(props) {
+    const [file, setFile] = useState();
+    const {user, editUser, uploadAvatar} = useContext(UserContext)
+    const handleFileChange = (e) => {
+        if (e.target.files) {
+          setFile(e.target.files[0]);
+        }
+    };
+
+    const handleUploadClick = () => {
+        if (!file) {
+          return;
+        }
+
+        uploadAvatar(file)
+        props.toggle()
+      };
 
     return (
         <div>
@@ -41,13 +59,13 @@ function UploadAvatarModal(props) {
                                                     <img src={ManAvatar4} className="rounded-circle" alt="avatar"/>
                                                 </figure>
                                             </div>
-                                            <CustomInput type="file" id="exampleCustomFileBrowser" name="customFile"/>
+                                            <CustomInput onChange={handleFileChange} type="file" id="exampleCustomFileBrowser" name="avatar"/>
                                         </div>
                                     </FormGroup>
                         </Form>
                 </ModalBody>
                 <ModalFooter>
-                    <Button color="primary">Save</Button>
+                    <Button onClick={handleUploadClick} color="primary">Save</Button>
                 </ModalFooter>
             </Modal>
         </div>
