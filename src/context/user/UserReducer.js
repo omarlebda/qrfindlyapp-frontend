@@ -1,5 +1,5 @@
 
-const ContextReducer = (state, { type, payload }) => {
+const UserReducer = (state, { type, payload }) => {
     switch (type) {
       case 'GETUSER':
         return {
@@ -10,4 +10,4 @@ const ContextReducer = (state, { type, payload }) => {
   };
 
 
-  export default ContextReducer
+  export default UserReducer

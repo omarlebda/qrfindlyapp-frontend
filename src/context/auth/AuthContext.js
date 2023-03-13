@@ -62,9 +62,9 @@ export const AuthProvider =({children}) =>{
       try {
         const res = await axios.post(`${APIsURL}/users/login`, body, config);
         localStorage.setItem('token', res.data.token);
-        dispatch({
-          type: 'LOGIN',
-        });
+        // dispatch({
+        //   type: 'LOGIN',
+        // });
         return {
           status: 'success',
           error: null

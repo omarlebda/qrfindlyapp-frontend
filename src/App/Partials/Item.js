@@ -1,11 +1,17 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 import {Label, Button} from 'reactstrap'
 import ItemCard from './ItemCard'
 import AddItemModal from '../Modals/AddItemModal'
+import ItemContext from '../../context/item/ItemContext'
 function Item() {
+
   const [addItemOpen, setAddItemOpen] =  useState(false)
   const addItemModalToggle = () => setAddItemOpen(!addItemOpen);
+  const {getItems, items} = useContext(ItemContext)
 
+  useEffect(()=>{
+    console.log('items', items)
+}, [])
   return (
     <>
       <AddItemModal  modal={addItemOpen} toggle={addItemModalToggle}/>
@@ -15,17 +21,17 @@ function Item() {
           </div>
       </div>
       <div className='chat-body'>
-          <div className='item-list'>
-            <div className='m-2'>
+          <div className='all-items-container'>
+          {items.map((item) => ( 
+            <ItemCard key={item?._id} item={item}/>
+          ))}
+              {/* <ItemCard/>
               <ItemCard/>
-            </div>
-            <div className='m-2'>
               <ItemCard/>
-            </div>
-            <div className='m-2'>
               <ItemCard/>
-            </div>
-
+              <ItemCard/>
+              <ItemCard/> */}
+           
           </div>
           
       </div>

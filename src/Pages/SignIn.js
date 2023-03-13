@@ -28,13 +28,14 @@ function SignIn() {
         e.preventDefault()
         try {
             const userLogin = await logIn(email, password)
-            if(!userLogin.error){
-                history.push('/')
-                console.log(userLogin.status)
-            }else{
-                // @To-Do Add Error Alerts
-                console.log(userLogin.error.message)
-            }
+            history.push('/')
+            // if(!userLogin.error){
+            //     history.push('/')
+            //     console.log(userLogin.status)
+            // }else{
+            //     // @To-Do Add Error Alerts
+            //     console.log(userLogin.error.message)
+            // }
             
         } catch (error) {
             console.log(error)
