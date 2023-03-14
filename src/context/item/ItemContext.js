@@ -73,6 +73,41 @@ export const ItemProvider =({children}) =>{
 
 
 
+  const deleteItem = async(id) => {
+    const token = localStorage.getItem("token");
+    try {
+      const response = await fetch(`${APIsURL}/items/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete resource");
+      }
+
+      // TODO: Handle success case
+      const updatedItems = state.items.filter((item) => item._id !== id)
+      dispatch({
+        type: 'DELETE_ITEM',
+        payload: {
+          updatedItems: updatedItems,
+        },
+      });
+      console.log("Item deleted")
+
+  } catch (error) {
+      console.error(error);
+
+      // TODO: Handle error case
+
+    }finally {
+      console.log("done")
+    }
+  }
+
+
   
 
 
@@ -83,7 +118,8 @@ export const ItemProvider =({children}) =>{
             ...state,
             getItems,
             items : state.items, 
-            addItem
+            addItem,
+            deleteItem
           }}
         >
           {children}

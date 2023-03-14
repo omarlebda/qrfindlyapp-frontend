@@ -43,9 +43,9 @@ function EditProfileModal(props) {
 
     const handleSubmit = async (e) =>{
         e.preventDefault()
-        const token = localStorage.getItem('token')
         try {
             addItem(file, itemName)
+            setItemName("");
         } catch (error) {
             console.log(error)
         }

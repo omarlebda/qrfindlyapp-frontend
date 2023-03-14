@@ -10,7 +10,12 @@ const ItemReducer = (state, { type, payload }) => {
         return {
           ...state,
           items: [payload.newItem, ...state.items],
-        }; 
+        };
+      case 'DELETE_ITEM':
+        return{
+          ...state,
+          items: payload.updatedItems
+        }
     }
   };
 
